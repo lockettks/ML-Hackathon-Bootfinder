@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // Skafos publishable key is required
     // You can find it under "app settings" in your project on the Skafos dashboard
-    Skafos.initialize("<PUBLISHABLE KEY>")
+    Skafos.initialize("b651d71134e086a2f7172a38:cba61ec379aa5b6854bef3d371879853:190")
 
     self.window?.makeKeyAndVisible()
     return true

@@ -13,6 +13,7 @@
 		39A34D5D21DFBE66008B5181 /* cameraIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 39A34D5C21DFBE66008B5181 /* cameraIcon.png */; };
 		39A6450A21F8F8AC003AA8DF /* ImageClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 39A6450921F8F8AC003AA8DF /* ImageClassifier.mlmodel */; };
 		5B25370CFFAEDEEFF899897E /* Pods_ImageClassification.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD799976F6EB2526733D5E88 /* Pods_ImageClassification.framework */; };
+		95BDD634222AF3530076D23E /* ImageSimilarity.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 95BDD633222AF3530076D23E /* ImageSimilarity.mlmodel */; };
 		D7A2284021D5656A002AEAF6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7A2283F21D5656A002AEAF6 /* ViewController.swift */; };
 		D7E6B0C421C8418F0026C015 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7E6B0C321C8418F0026C015 /* AppDelegate.swift */; };
 		D7E6B0C921C841900026C015 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7E6B0C821C841900026C015 /* Assets.xcassets */; };
@@ -30,6 +31,8 @@
 		39A34D5C21DFBE66008B5181 /* cameraIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cameraIcon.png; sourceTree = "<group>"; };
 		39A6450921F8F8AC003AA8DF /* ImageClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ImageClassifier.mlmodel; sourceTree = "<group>"; };
 		77C33E3066928897E40EB926 /* Pods-ImageRecognition.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ImageRecognition.release.xcconfig"; path = "Pods/Target Support Files/Pods-ImageRecognition/Pods-ImageRecognition.release.xcconfig"; sourceTree = "<group>"; };
+		95BDD633222AF3530076D23E /* ImageSimilarity.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ImageSimilarity.mlmodel; sourceTree = "<group>"; };
+		95BDD636222AFEBB0076D23E /* ImageSimilarity.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = ImageSimilarity.mlmodel; sourceTree = "<group>"; };
 		AD799976F6EB2526733D5E88 /* Pods_ImageClassification.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageClassification.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7A2283F21D5656A002AEAF6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D7E6B0C021C8418F0026C015 /* ImageClassification.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageClassification.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				39A6450921F8F8AC003AA8DF /* ImageClassifier.mlmodel */,
+				95BDD633222AF3530076D23E /* ImageSimilarity.mlmodel */,
 				39A34D5C21DFBE66008B5181 /* cameraIcon.png */,
 				D7E6B0C821C841900026C015 /* Assets.xcassets */,
 				39A34D5821DFBC87008B5181 /* imageGalleryIcon.png */,
@@ -120,6 +124,7 @@
 		D7E6B0D521C8437C0026C015 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				95BDD636222AFEBB0076D23E /* ImageSimilarity.mlmodel */,
 				D7E6B0C321C8418F0026C015 /* AppDelegate.swift */,
 			);
 			path = App;
@@ -229,8 +234,7 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks.sh",
 				"${PODS_ROOT}/Skafos/frameworks/Skafos.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 			);
@@ -238,13 +242,12 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Skafos.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ImageClassification/Pods-ImageClassification-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		35B5D3A3AC8A05E571C70A62 /* [CP] Check Pods Manifest.lock */ = {
@@ -279,6 +282,7 @@
 				D7E6B0C421C8418F0026C015 /* AppDelegate.swift in Sources */,
 				39A34D5521DE688C008B5181 /* UIImage+Extension.swift in Sources */,
 				D7E6B0DB21C846780026C015 /* MainViewController.swift in Sources */,
+				95BDD634222AF3530076D23E /* ImageSimilarity.mlmodel in Sources */,
 				D7A2284021D5656A002AEAF6 /* ViewController.swift in Sources */,
 				39A6450A21F8F8AC003AA8DF /* ImageClassifier.mlmodel in Sources */,
 			);
@@ -421,14 +425,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ImageClassification/Support/ImageClassification.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = HW8RH4DBAM;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/ImageClassification/Support/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.skafos.ImageClassification;
+				PRODUCT_BUNDLE_IDENTIFIER = io.skafos.BootFinder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -442,14 +446,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = ImageClassification/Support/ImageClassification.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = HW8RH4DBAM;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = "$(SRCROOT)/ImageClassification/Support/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = io.skafos.ImageClassification;
+				PRODUCT_BUNDLE_IDENTIFIER = io.skafos.BootFinder;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 1;
