@@ -1,6 +1,6 @@
 //
 //  MainViewController.swift
-//  ImageClassification
+//  ImageSimilarities
 //
 //  Created by Wess Cope on 12/17/18.
 //  Copyright © 2018 Skafos. All rights reserved.
@@ -15,8 +15,7 @@ import SnapKit
 
 class MainViewController : ViewController {
     // This will be the asset name you use in drag and drop on the dashboard
-    private let assetName:String                  = "ImageClassifier"
-    private let imageClassifier:ImageClassifier!  = ImageClassifier()
+    private let assetName:String                  = "ImageSimilarity"
     private let imageSimilarity:ImageSimilarity!  = ImageSimilarity()
     var referenceRankingTest = ""
     
@@ -34,7 +33,7 @@ class MainViewController : ViewController {
                 debugPrint("No model available")
                 return
             }
-            self.imageClassifier.model = model
+            self.imageSimilarity.model = model
         }
         
         // Receive Notification When New Model Has Been Downloaded And Compiled
@@ -51,7 +50,8 @@ class MainViewController : ViewController {
                 debugPrint("No model available")
                 return
             }
-            self.imageClassifier.model = model
+            self.imageSimilarity.model = model
+           print("================== MODEL RELOADED! ==================")
         }
     }
     
@@ -71,7 +71,7 @@ class MainViewController : ViewController {
         self.present(myPickerController, animated: true, completion: nil)
     }
 
-        func similarifyImage(image:UIImage) { //MM classifyImage & Apple updateClassifications
+        func similarifyImage(image:UIImage) {
             self.currentImage = image
             let orientation   = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))!
             guard let ciImage = CIImage(image: image) else { fatalError("Bad image") }
@@ -98,9 +98,9 @@ class MainViewController : ViewController {
         }
     
     
-    lazy var similarityRequest: VNCoreMLRequest = { // MM classifyImage & Apple classificationRequest
+    lazy var similarityRequest: VNCoreMLRequest = {
         do {
-            let model = try VNCoreMLModel(for: self.imageClassifier.model)
+            let model = try VNCoreMLModel(for: self.imageSimilarity.model)
             
             let request = VNCoreMLRequest(model: model, completionHandler: { [weak self] request, error in
                 self?.processQuery(for: request, error: error)
@@ -112,7 +112,7 @@ class MainViewController : ViewController {
         }
     }()
     
-    func processQuery(for request: VNRequest, error: Error?, k: Int = 5) { //MM processClassifications & Apple updateClassifications
+    func processQuery(for request: VNRequest, error: Error?, k: Int = 5) {
         DispatchQueue.main.async {
             guard let results = request.results else {
                 self.referenceRankingTest = "Unable to rank image.\n\(error!.localizedDescription)"
@@ -133,15 +133,18 @@ class MainViewController : ViewController {
             let sorted = distanceArray.enumerated().sorted(by: {$0.element < $1.element})
             let knn = sorted[..<min(k, numReferenceImages)]
             
-            self.referenceRankingTest = String(describing: knn)
-            print (self.referenceRankingTest)
-//                    let message = descriptions.joined(separator: "\n")
-            self.showSimilarities(message: self.referenceRankingTest)
+            var message = "Results\n\n"
+            knn.forEach {
+                let result = "Element: \($0.element)  Offset: \($0.offset)\n"
+                message.append(result)
+            }
+            print (message)
+            self.showSimilarities(message: message)
         }
     }
     
     func showSimilarities(message:String) {
-        let alertController = UIAlertController(title: "Classification", message: message, preferredStyle: .alert)
+        let alertController = UIAlertController(title: "Similarities", message: message, preferredStyle: .alert)
         let previewImage = self.currentImage.imageWithSize(scaledToSize: CGSize(width: 150, height: 150))
         let customView = UIImageView(image: previewImage)
         alertController.view.addSubview(customView)
@@ -180,95 +183,6 @@ class MainViewController : ViewController {
         self.presentedViewController?.present(alertController, animated: true, completion: nil)
     }
 
-    
-//    func showClassification(message:String) {
-//        let alertController = UIAlertController(title: "Classification", message: message, preferredStyle: .alert)
-//        let previewImage = self.currentImage.imageWithSize(scaledToSize: CGSize(width: 150, height: 150))
-//        let customView = UIImageView(image: previewImage)
-//        alertController.view.addSubview(customView)
-//
-//        customView.snp.makeConstraints { make in
-//            make.top.equalToSuperview().offset(100)
-//            make.centerX.equalToSuperview()
-//            make.height.equalTo(previewImage.size.height)
-//        }
-//
-//        alertController.view.snp.makeConstraints { (make) in
-//            make.height.equalTo(customView.frame.height+190)
-//        }
-//
-//        let action = UIAlertAction(title: "OK", style: .default) { (actionitem) in
-//            if let imagePicker = (self.presentedViewController as? UIImagePickerController) {
-//                if (imagePicker.sourceType == .camera) {
-//                    self.dismiss(animated: false, completion: nil)
-//                }
-//            }
-//        }
-//
-//        alertController.addAction(action)
-//
-//        // Save to Photo Library
-//        if let imagePicker = (self.presentedViewController as? UIImagePickerController) {
-//            if (imagePicker.sourceType == .camera) {
-//                let saveAction = UIAlertAction(title: "Save Image", style: .default) { (actionitem) in
-//                    UIImageWriteToSavedPhotosAlbum(self.currentImage, nil, nil, nil)
-//                    self.dismiss(animated: false, completion: nil)
-//                }
-//                alertController.addAction(saveAction)
-//            }
-//        }
-//
-//        self.presentedViewController?.present(alertController, animated: true, completion: nil)
-//    }
-    
-//        func classifyImage(image:UIImage) { //My similarifyImage & Apple classificationRequest
-//            self.currentImage = image
-//            let orientation   = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))!
-//            guard let ciImage = CIImage(image: image) else { fatalError("Bad image") }
-//            let model = try! VNCoreMLModel(for: self.imageClassifier.model)
-//
-//            let request = VNCoreMLRequest(model: model) {[weak self] request, error in
-//                self?.processClassifications(for: request, error: error)
-//            }
-//            request.imageCropAndScaleOption = .centerCrop
-//
-//            DispatchQueue.global(qos: .userInitiated).async {
-//                let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
-//
-//                do {
-//                    try handler.perform([request])
-//                } catch {
-//                    print("Failed: \n\(error.localizedDescription)")
-//                }
-//            }
-//        }
-    
-    //  func processClassifications(for request: VNRequest, error: Error?) { //My processQuery & Apple updateClassifications
-    //    DispatchQueue.main.async {
-    //      guard let results = request.results else {
-    //        print("Unable to classify image.\n\(error!.localizedDescription)")
-    //        return
-    //      }
-    //      // The `results` will always be `VNClassificationObservation`s, as specified by the Core ML model in this project.
-    //      let classifications = results as! [VNClassificationObservation]
-    //
-    //      if classifications.isEmpty {
-    //        print("No Classifications")
-    //      } else {
-    //        // Display top classifications ranked by confidence in the UI.
-    //        let topClassifications = classifications.prefix(2)
-    //        let descriptions = topClassifications.map { classification in
-    //          // Formats the classificatoion for display; e.g. "(0.375) cliff, drop, drop-off".
-    //          return String(format: "  (%.3f) %@", classification.confidence, classification.identifier)
-    //        }
-    //
-    //        let message = descriptions.joined(separator: "\n")
-    //        self.showClassification(message: message)
-    //      }
-    //    }
-    //  }
-    
-
 }
 
 extension MainViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate{
@@ -278,7 +192,6 @@ extension MainViewController: UIImagePickerControllerDelegate, UINavigationContr
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-//            self.classifyImage(image: image)
             self.similarifyImage(image: image)
         }else{
             print("Something went wrong")
