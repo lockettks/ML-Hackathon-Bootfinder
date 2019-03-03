@@ -12,12 +12,14 @@ import Skafos
 import CoreML
 import Vision
 import SnapKit
+import SwiftyJSON
 
 class MainViewController : ViewController {
     // This will be the asset name you use in drag and drop on the dashboard
     private let assetName:String                  = "ImageSimilarity"
     private let imageSimilarity:ImageSimilarity!  = ImageSimilarity()
     var referenceRankingTest = ""
+    var metaData = JSON()
     
     private var currentImage:UIImage!             = nil
     
@@ -41,6 +43,18 @@ class MainViewController : ViewController {
                                                selector: #selector(MainViewController.reloadModel(_:)),
                                                name: Skafos.Notifications.assetUpdateNotification(assetName),
                                                object: nil)
+        
+        if let path = Bundle.main.path(forResource: "AllMetadata", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: path), options: .alwaysMapped)
+                metaData = try JSON(data: data)
+                
+            } catch let error {
+                print("parse error: \(error.localizedDescription)")
+            }
+        } else {
+            print("Invalid filename/path.")
+        }
     }
     
     @objc func reloadModel(_ notification:Notification) {
@@ -133,7 +147,9 @@ class MainViewController : ViewController {
             let sorted = distanceArray.enumerated().sorted(by: {$0.element < $1.element})
             let knn = sorted[..<min(k, numReferenceImages)]
             
-            var message = "Results\n\n"
+            self.getMetaData(topResults: knn)
+            
+            var message = ""
             knn.forEach {
                 let result = "Element: \($0.element)  Offset: \($0.offset)\n"
                 message.append(result)
@@ -141,6 +157,14 @@ class MainViewController : ViewController {
             print (message)
             self.showSimilarities(message: message)
         }
+    }
+    
+    func getMetaData(topResults: ArraySlice<(offset: Int, element: Double)>){
+        let topResult = topResults[0]
+        
+        let topResultMeta = metaData[topResult.offset - 1]
+        let description = topResultMeta["Description"]
+        print(description)
     }
     
     func showSimilarities(message:String) {

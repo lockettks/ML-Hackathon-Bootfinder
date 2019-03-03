@@ -7,5 +7,6 @@ target 'ImageClassification' do
 
   pod 'SnapKit'
   pod 'Skafos', '2.5.0'
+  pod 'SwiftyJSON', '~> 4.0'
 end
 
